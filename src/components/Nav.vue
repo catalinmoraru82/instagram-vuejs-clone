@@ -31,15 +31,28 @@ gk<template>
     </main>
 </template>
 <script setup>
-    import { RouterLink } from 'vue-router';
+    import { RouterLink, useRouter } from 'vue-router';
     import Container from './Container.vue';
     import AuthModal from './AuthModal.vue';
     import { ref } from 'vue';
 
+    const router = useRouter();
     const searchUsername = ref('');
     const isAuthenticated = ref(false);
 
-    const onSearch = () => {};
+    const onSearch = () => {
+        if(searchUsername.value) {
+            router.push(
+                {
+                    name: 'profile',
+                    params: {
+                        username: searchUsername.value
+                    }
+                }
+            );
+            searchUsername.value = "";
+        }
+    };
 </script>
 
 <style scoped>
