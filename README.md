@@ -1,6 +1,6 @@
 # instagram
 
-This template should help get you started developing with Vue 3 in Vite.
+Instagram clone built using VueJS 3 with Composition API (script setup), Pinia...
 
 ## Recommended IDE Setup
 
