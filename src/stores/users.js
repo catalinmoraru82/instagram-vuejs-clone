@@ -1,5 +1,6 @@
-import { ref } from 'vue'
-import { defineStore } from 'pinia'
+import { ref } from 'vue';
+import { defineStore } from 'pinia';
+import {supabase} from '../supabase';
 
 export const useUserStore = defineStore('users', () => {
     const user = ref(null);
@@ -14,25 +15,32 @@ export const useUserStore = defineStore('users', () => {
         );
     };
 
-    const handleSignup = (credentials) => {
+    const handleSignup = async (credentials) => {
         const {email, password, username} = credentials;
 
         if(password.length < 6) {
-            console.log("password too short");
             return errorMessage.value = 'password length too short';
         }
 
         if(username.length < 4) {
-            console.log("username too short")
             return errorMessage.value = 'Username too short';
         }
 
         if(!validateEmail(email)) {
-            console.log("email invalid")
             return errorMessage.value = 'Email is invalid';
         }
 
         errorMessage.value = ''
+
+        const response = await supabase.auth.signUp({
+            email,
+            password
+        })
+
+        if(error) {
+            return errorMessage.value = error.message
+        }
+        console.log(response)
     };
 
     const handleLogout = () => {};
