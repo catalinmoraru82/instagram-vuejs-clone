@@ -32,7 +32,7 @@ export const useUserStore = defineStore('users', () => {
 
         errorMessage.value = ''
 
-        const response = await supabase.auth.signUp({
+        const {error} = await supabase.auth.signUp({
             email,
             password
         })
@@ -40,7 +40,11 @@ export const useUserStore = defineStore('users', () => {
         if(error) {
             return errorMessage.value = error.message
         }
-        console.log(response)
+
+        await supabase.from("users").insert({
+            username,
+            email
+        })
     };
 
     const handleLogout = () => {};
